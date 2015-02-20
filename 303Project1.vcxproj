@@ -64,11 +64,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Main.cpp" />
+    <ClInclude Include="Assignments.h" />
+    <ClInclude Include="Date.h" />
+    <ClInclude Include="Homework.h" />
+    <ClInclude Include="StringTokenizer.h" />
+    <ClInclude Include="User_Interface.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Date.h" />
-    <ClInclude Include="StringTokenizer.h" />
+    <ClCompile Include="Main.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
