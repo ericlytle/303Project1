@@ -1,3 +1,5 @@
+#pragma once
+
 #include <string>
 #pragma once
 #include "Date.h"
@@ -11,7 +13,8 @@ bool stringIsValidDate(string d)
 {
 	try
 	{
-		Date date(d);
+		Date date;
+		date.parseDate(d, DateFormat::Standard);
 		return true;
 	}
 	catch (exception)
@@ -20,3 +23,7 @@ bool stringIsValidDate(string d)
 	}
 }
 
+bool stringIsValidAssignmentStatus(string status)
+{
+	return status == "assigned" || status == "late" || status == "completed";
+}
