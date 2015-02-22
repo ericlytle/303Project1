@@ -7,6 +7,7 @@
 #include <sstream>
 #include <limits>
 #include <math.h>
+#include <algorithm>
 
 using namespace std;
 
@@ -27,11 +28,13 @@ bool dateRangeIsValid(Date assignedDate, Date dueDate)
 	return assignedDate <= dueDate;
 }
 
-bool stringIsValidDate(string d)
+// test this
+bool stringIsValidDate(string date)
 {
+	// check for 0000-00-00 string before entering try block
 	try
 	{
-		Date date(d);
+		Date date(date);
 		return true;
 	}
 	catch (exception)
@@ -42,6 +45,7 @@ bool stringIsValidDate(string d)
 
 bool stringIsValidAssignmentStatus(string status)
 {
+	// convert status to lowercase before return
 	return status == "assigned" || status == "late" || status == "completed";
 }
 
