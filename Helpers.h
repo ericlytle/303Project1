@@ -1,4 +1,5 @@
 #include <string>
+#pragma once
 #include "Date.h"
 
 bool dateRangeIsValid(Date assignedDate, Date dueDate)

@@ -20,8 +20,10 @@ void UI::displayMenu(){
 	cin >> choice;
 	switch (choice){
 	case 'A':
-		cout << "Due Date: ";
-		cin >> dueDate;
+		do{
+			cout << "Due Date: ";
+			getline(cin,dueDate);
+		} while (stringIsValidDate(dueDate) == false);
 		cout << endl << "Assigned Date: ";
 		cin >> assignedDate;
 		cout << endl << "Description: ";
