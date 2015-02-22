@@ -36,6 +36,7 @@ bool dateRangeIsValid(Date assignedDate, Date dueDate)
 bool stringIsValidDate(string date)
 {
 	// check for 0000-00-00 string before entering try block
+	// only checks those places that should be digits, does not check delimeters
 	for (unsigned int i = 0; i < date.length(); i++)
 	{
 		if ((i < 4) || (i == 5 || i == 6) || (i == 8 || i == 9))
