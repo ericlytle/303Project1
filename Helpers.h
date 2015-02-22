@@ -6,7 +6,7 @@ bool dateRangeIsValid(Date assignedDate, Date dueDate)
 	return assignedDate <= dueDate;
 }
 
-bool dateIsValid(string d)
+bool stringIsValidDate(string d)
 {
 	try
 	{
