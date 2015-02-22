@@ -1,6 +1,7 @@
 #include "Assignments.h"
 #include "Helpers.h"
 #include <iostream>
+#include <istream>
 using namespace std;
 
 class UI {
@@ -11,33 +12,56 @@ private:
 	static string Menu;
 };
 
-string UI::Menu("Choose from one of the following:\n[A]: Add Assignment\n[B]: Edit Assignment\n[I]Import Assignments\n");
+string UI::Menu("Choose from one of the following:\n\
+[A]: Add Assignment\n\
+[B]: Edit Assignment\n\
+[C]: Complete Assignment\n\
+[D]: Display Assignments\n\
+[E]: Display Number of Late Assignments\n\
+[I]: Import Assignments\n\
+[S]: Save\n");
+
 void UI::displayMenu(){
-	char choice;
+	string choice;
 	string dueDate, assignedDate, Description, Status;
 	
 	cout << Menu << "-->";
 	cin >> choice;
-	switch (choice){
-	case 'A':
-		do{
-			cout << "Due Date: ";
-			getline(cin,dueDate);
-		} while (stringIsValidDate(dueDate) == false);
-		cout << endl << "Assigned Date: ";
+	while (!IsInString(choice, "ABCDEISabcdeis") || choice.length() > 1){
+		cout << "Invalid menu choice. Try again." << endl << "-->";
+		cin >> choice;
+	}
+	choice = toupper(choice[0]);
+	switch (choice[0]){
+	case 'A': //Add Assignment
+		cout << "Due Date:(YYYY/MM/DD) ";
+		cin >> dueDate;
+		while (!stringIsValidDate(dueDate)){
+			cout << "Invalid Date. Retry. Makes sure date is in (YYYY/MM/DD) format " << endl << "-->";
+			cin >> dueDate;
+		}
+		cout << endl << "Assigned Date:(YYYY/MM/DD) ";
 		cin >> assignedDate;
+		while (!stringIsValidDate(assignedDate)){
+			cout << "Invalid Date. Retry. Makes sure date is in (YYYY/MM/DD) format" << endl << "-->";
+			cin >> dueDate;
+		}
 		cout << endl << "Description: ";
-		cin >> Description;
+		getline(cin, Description);
 		cout << endl << "Status: ";
 		cin >> Status;
 		org.addAssignment(dueDate, assignedDate, Description, Status);
 		break;
-	case 'B': break;
+	case 'B': break; //edit assignment
+	case 'C': break;//complete assignment
+	case 'D': break; //Display Assignment(s)
+	case 'E': break; //Display number of late assignments
 	case 'I':
 		fstream fin("input.txt"); //still need to get file from user, put in assignments header
 		org.importHomework(fin);
 		org.printHomework();
 		break;
+	case 'S': break; //save I.E. export
 
 	}
 	
