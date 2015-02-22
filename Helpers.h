@@ -163,9 +163,6 @@ string NumberToStringBuilder(double number)
 	return numberAsString = conversionStream.str();
 }
 
-/* tolower example */
-#include <stdio.h>
-
 string makeLowercase(string s)
 {
 	char c;
