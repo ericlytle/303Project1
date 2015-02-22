@@ -8,6 +8,7 @@
 #include <sstream>
 #include <limits>
 #include <math.h>
+#include <algorithm>
 
 using namespace std;
 
@@ -28,11 +29,13 @@ bool dateRangeIsValid(Date assignedDate, Date dueDate)
 	return assignedDate <= dueDate;
 }
 
-bool stringIsValidDate(string d)
+// test this
+bool stringIsValidDate(string date)
 {
+	// check for 0000-00-00 string before entering try block
 	try
 	{
-		Date date(d);
+		Date date(date);
 		return true;
 	}
 	catch (exception)
@@ -43,6 +46,7 @@ bool stringIsValidDate(string d)
 
 bool stringIsValidAssignmentStatus(string status)
 {
+	// convert status to lowercase before return
 	return status == "assigned" || status == "late" || status == "completed";
 }
 
@@ -64,6 +68,7 @@ string GetFileName(int minLength, int maxLength, string validExtension)
 		unsigned int index = 0;
 		string fileName = "";
 		string fileExtension = "";
+		cout << "Enter Your File Name - Text Files only\n->";
 		fileName = GetUserString(minLength, maxLength, "");
 		while (fileName[index] != '.' && index < fileName.length())
 		{
@@ -103,9 +108,9 @@ string GetUserString(int minLength, int maxLength, string validInput)
 	string userString = "";
 	while (true)
 	{
+		
 		cin >> userString;
-		if (!IsAlphaNumeric(userString)) cout << "Invalid input: Must be alpha-numeric, period, dash, or underscore. " << endl;
-		else if (validInput != "" && userString.find(validInput) == string::npos) cout << "Invalid input. " << endl;
+		if (validInput != "" && userString.find(validInput) == string::npos) cout << "Invalid input. " << endl;
 		else if (static_cast<int>(userString.length()) < minLength) cout << "Too short. " << endl;
 		else if (static_cast<int>(userString.length()) > maxLength) cout << "Too long. " << endl;
 		else return userString;

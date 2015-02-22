@@ -7,9 +7,11 @@ using namespace std;
 class UI {
 public:
 	void displayMenu();
+	void getUserFileName();
 private:
 	Assignments org;
 	static string Menu;
+	string fileName;
 };
 
 string UI::Menu("Choose from one of the following:\n\
@@ -38,7 +40,7 @@ void UI::displayMenu(){
 		cin >> dueDate;
 		while (!stringIsValidDate(dueDate)){
 			cout << "Invalid Date. Retry. Makes sure date is in (YYYY/MM/DD) format " << endl << "-->";
-			cin >> dueDate;
+		cin >> dueDate;
 		}
 		cout << endl << "Assigned Date:(YYYY/MM/DD) ";
 		cin >> assignedDate;
@@ -57,9 +59,14 @@ void UI::displayMenu(){
 	case 'D': break; //Display Assignment(s)
 	case 'E': break; //Display number of late assignments
 	case 'I':
-		fstream fin("input.txt"); //still need to get file from user, put in assignments header
+		fileName = GetFileName(5, 20, EXT);
+		ifstream fin(fileName); 
+		ofstream fout("output.txt");
 		org.importHomework(fin);
 		org.printHomework();
+		org.exportHomework(fout);
+		fin.close();
+		fout.close();
 		break;
 	case 'S': break; //save I.E. export
 
