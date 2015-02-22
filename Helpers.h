@@ -1,7 +1,7 @@
 #pragma once
 
+#include <stdio.h>
 #include <string>
-#pragma once
 #include "Date.h"
 #include <iostream>
 #include <fstream>
@@ -9,12 +9,16 @@
 #include <limits>
 #include <math.h>
 #include <algorithm>
+#include <ctype.h>
 
 using namespace std;
 
+#pragma region Constants
 const unsigned int MAX_STRING = 50; // max length of user input string
 const string EXT = ".txt"; // valid file extention
+#pragma endregion
 
+#pragma region Prototypes
 bool IsInString(string s1, string s2);
 string NumberToStringBuilder(double number);
 string GetFileName(int minLength, int maxLength, string validExtension);
@@ -23,43 +27,65 @@ bool IsAlphaNumeric(string c);
 bool dateRangeIsValid(Date assignedDate, Date dueDate);
 bool stringIsValidDate(string d);
 bool stringIsValidAssignmentStatus(string status);
-bool IsNumeric(string c);
+bool IsNumeric(char c);
+string makeLowercase(string s);
+#pragma endregion
 
+#pragma region Definitions
 bool dateRangeIsValid(Date assignedDate, Date dueDate)
+// returns True is the assignedDate is less than or
+// equal to the dueDate, otherwise returns False
 {
 	return assignedDate <= dueDate;
 }
 
-// test this
-//bool stringIsValidDate(string date)
-//{
-//	// check for 0000-00-00 string before entering try block
-//	for (unsigned int i = 0; i < date.length(); i++)
-//	{
-//		if ((i < 4) || (i == 5 || i == 6) || (i == 8 || i == 9))
-//		{
-//			// if not digit, invalid
-//			if (!IsNumeric(date[i]))
-//			{
-//				return false;
-//			}
-//		}
-//	}
-//	try
-//	{
-//		Date date(date);
-//		return true;
-//	}
-//	catch (exception)
-//	{
-//		return false;
-//	}
-//}
+bool stringIsValidDate(string date)
+// returns True if string "date" represents a valid format
+// for dates passed into the Date.h object, otherwise false
+{
+	// check length
+	if (date.length() != 10)
+	{
+		return false;
+	}
+	// check for 0000-00-00 string before entering try block
+	for (unsigned int i = 0; i < date.length(); i++)
+	{
+		if ((i < 4) || (i == 5 || i == 6) || (i == 8 || i == 9))
+		{
+			// if not digit, invalid
+			if (!IsNumeric(date[i]))
+			{
+				return false;
+			}
+		}
+		else
+		{
+			// if digit, invalid
+			if (IsNumeric(date[i]))
+			{
+				return false;
+			}
+		}
+
+	}
+	try
+	{
+		Date date(date);
+		return true;
+	}
+	catch (exception)
+	{
+		return false;
+	}
+}
 
 bool stringIsValidAssignmentStatus(string status)
+// returns True if string status matches one of the three
+// valid assignment status types, otherwise returns false
 {
-	// convert status to lowercase before return
-	return status == "assigned" || status == "late" || status == "completed";
+	string s = makeLowercase(status);
+	return s == "assigned" || s == "late" || s == "completed";
 }
 
 bool IsInString(string s1, string s2)
@@ -110,7 +136,7 @@ string GetFileName(int minLength, int maxLength, string validExtension)
 }
 
 string GetUserString(int minLength, int maxLength, string validInput)
-// Gets an alpha-numeric string from user within a length range.
+// Gets an alpha-numeric string from user within a length range. <-- commented out AlphaNumeric check below
 // Checks user input against a validInput string that's passed into the function.
 // If you don't want to check input against validInput string, pass an empty string "" into
 // the function.
@@ -146,6 +172,7 @@ bool IsAlphaNumeric(string c)
 }
 
 bool IsNumeric(char c)
+// True if char c is numeric, otherwise false
 {
 	return c >= 48 && c <= 57;
 }
@@ -159,3 +186,26 @@ string NumberToStringBuilder(double number)
 	conversionStream << number;
 	return numberAsString = conversionStream.str();
 }
+
+string makeLowercase(string s)
+// Takes a string, converts to lowercase (if possible),
+// returns lowercase string
+{
+	char c;
+	char str[] = "";
+	string lower = "";
+	// convert string s into str[]
+	for (unsigned int i = 0; i < s.length(); i++)
+	{
+		str[i] = s[i];
+	}
+	unsigned int i = 0;
+	while (str[i])
+	{
+		c = str[i];
+		lower += tolower(c);
+		i++;
+	}
+	return lower;
+}
+#pragma endregion
