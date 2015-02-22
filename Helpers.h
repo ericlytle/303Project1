@@ -18,7 +18,6 @@ const unsigned int MAX_STRING = 50; // max length of user input string
 const string EXT = ".txt"; // valid file extention
 #pragma endregion
 
-
 #pragma region Prototypes
 bool IsInString(string s1, string s2);
 string NumberToStringBuilder(double number);
@@ -40,13 +39,16 @@ bool dateRangeIsValid(Date assignedDate, Date dueDate)
 	return assignedDate <= dueDate;
 }
 
-// test this
 bool stringIsValidDate(string date)
 // returns True if string "date" represents a valid format
 // for dates passed into the Date.h object, otherwise false
 {
+	// check length
+	if (date.length() != 10)
+	{
+		return false;
+	}
 	// check for 0000-00-00 string before entering try block
-	// only checks those places that should be digits, does not check delimeters
 	for (unsigned int i = 0; i < date.length(); i++)
 	{
 		if ((i < 4) || (i == 5 || i == 6) || (i == 8 || i == 9))
@@ -57,6 +59,15 @@ bool stringIsValidDate(string date)
 				return false;
 			}
 		}
+		else
+		{
+			// if digit, invalid
+			if (IsNumeric(date[i]))
+			{
+				return false;
+			}
+		}
+
 	}
 	try
 	{
