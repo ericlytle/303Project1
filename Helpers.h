@@ -1,7 +1,7 @@
 #pragma once
 
+#include <stdio.h>
 #include <string>
-#pragma once
 #include "Date.h"
 #include <iostream>
 #include <fstream>
@@ -9,6 +9,7 @@
 #include <limits>
 #include <math.h>
 #include <algorithm>
+#include <ctype.h>
 
 using namespace std;
 
@@ -23,7 +24,8 @@ bool IsAlphaNumeric(string c);
 bool dateRangeIsValid(Date assignedDate, Date dueDate);
 bool stringIsValidDate(string d);
 bool stringIsValidAssignmentStatus(string status);
-bool IsNumeric(string c);
+bool IsNumeric(char c);
+string makeLowercase(string s);
 
 bool dateRangeIsValid(Date assignedDate, Date dueDate)
 {
@@ -58,8 +60,8 @@ bool stringIsValidDate(string date)
 
 bool stringIsValidAssignmentStatus(string status)
 {
-	// convert status to lowercase before return
-	return status == "assigned" || status == "late" || status == "completed";
+	string s = makeLowercase(status);
+	return s == "assigned" || s == "late" || s == "completed";
 }
 
 bool IsInString(string s1, string s2)
@@ -158,4 +160,27 @@ string NumberToStringBuilder(double number)
 	ostringstream conversionStream;
 	conversionStream << number;
 	return numberAsString = conversionStream.str();
+}
+
+/* tolower example */
+#include <stdio.h>
+
+string makeLowercase(string s)
+{
+	char c;
+	char str[] = "";
+	string lower = "";
+	// convert string s into str[]
+	for (unsigned int i = 0; i < s.length(); i++)
+	{
+		str[i] = s[i];
+	}
+	unsigned int i = 0;
+	while (str[i])
+	{
+		c = str[i];
+		lower += tolower(c);
+		i++;
+	}
+	return lower;
 }
