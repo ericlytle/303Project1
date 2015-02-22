@@ -22,8 +22,6 @@ private:
 
 void Assignments::addAssignment(string dueDate, string assignedDate, string Description, string Status)
 {
-	if (stringIsValidAssignmentStatus(Status) && stringIsValidDate(dueDate) && stringIsValidDate(assignedDate))
-	{
 		Homework tempAssignment(dueDate, assignedDate, Description, Status);
 		if (tempAssignment.getStatus() == "assigned")
 		{
@@ -34,7 +32,6 @@ void Assignments::addAssignment(string dueDate, string assignedDate, string Desc
 		{
 			Completed.push_back(tempAssignment);
 		}
-	}
 }
 
 Homework Assignments::getHomework(string assignedDate){
