@@ -2,6 +2,7 @@
 #include <list>
 #include "StringTokenizer.h"
 #include "Date.h"
+#include "Helpers.h"
 #include "Homework.h"
 #include <iostream>
 #include <sstream>

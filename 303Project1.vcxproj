@@ -66,6 +66,7 @@
   <ItemGroup>
     <ClInclude Include="Assignments.h" />
     <ClInclude Include="Date.h" />
+    <ClInclude Include="Helpers.h" />
     <ClInclude Include="Homework.h" />
     <ClInclude Include="StringTokenizer.h" />
     <ClInclude Include="User_Interface.h" />
