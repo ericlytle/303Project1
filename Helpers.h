@@ -7,6 +7,7 @@
 #include <sstream>
 #include <limits>
 #include <math.h>
+#include <algorithm>
 
 using namespace std;
 
@@ -27,6 +28,7 @@ bool dateRangeIsValid(Date assignedDate, Date dueDate)
 	return assignedDate <= dueDate;
 }
 
+// test this
 bool stringIsValidDate(string d)
 {
 	try
