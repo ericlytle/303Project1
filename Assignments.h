@@ -13,7 +13,8 @@ class Assignments {
 public:
 	void addAssignment(string dueDate, string assignedDate, string Description, string Status);
 	Homework getHomework(string date);
-	void importHomework(fstream& file);
+	void importHomework(ifstream& file);
+	void exportHomework(ofstream& file);
 	void printHomework();
 private:
 	list<Homework> Assigned;
@@ -39,7 +40,7 @@ Homework Assignments::getHomework(string assignedDate){
 	}
 }
 
-void Assignments::importHomework(fstream& file){
+void Assignments::importHomework(ifstream& file){
 	string tempData, dueDate, assignedDate, description, status;
 	stringstream ss;
 	while (file.good()){
@@ -63,6 +64,21 @@ void Assignments::printHomework(){ //this is only for testing purposes
 	cout << endl << endl;
 	while (itCompleted != Completed.end()){
 		cout << itCompleted->getDescription() << "-->";
+		++itCompleted;
+	}
+}
+
+void Assignments::exportHomework(ofstream& file){
+	list<Homework>::iterator itAssigned = Assigned.begin(), itCompleted = Completed.begin();
+	while (itAssigned != Assigned.end()){
+		file << itAssigned->getAssignedDate() + ", " + itAssigned->getDescription() + ", "
+			 + itAssigned->getDueDate() + ", " + itAssigned->getStatus() << endl;
+		++itAssigned;
+	}
+	cout << endl << endl;
+	while (itCompleted != Completed.end()){
+		file << itCompleted->getAssignedDate() + ", " + itCompleted->getDescription() + ", "
+			+ itCompleted->getDueDate() + ", " + itCompleted->getStatus() << endl;
 		++itCompleted;
 	}
 }
