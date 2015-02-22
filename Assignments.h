@@ -23,18 +23,31 @@ private:
 
 void Assignments::addAssignment(string dueDate, string assignedDate, string Description, string Status)
 {
-	if (stringIsValidAssignmentStatus(Status) && stringIsValidDate(dueDate) && stringIsValidDate(assignedDate))
+	list<Homework>::iterator it;
+	Homework tempAssignment(dueDate, assignedDate, Description, Status);
+	Date due(dueDate,  DateFormat::US);
+	if (tempAssignment.getStatus() == "assigned")
 	{
-		Homework tempAssignment(dueDate, assignedDate, Description, Status);
-		if (tempAssignment.getStatus() == "assigned")
-		{
-			// check date, insert in the correct spot
+		//Assigned.push_back(tempAssignment);
+		if (Assigned.empty())
 			Assigned.push_back(tempAssignment);
-		}
-		else //need error checking for not of three status types
+		else
 		{
-			Completed.push_back(tempAssignment);
+			it = Assigned.begin();
+			while (it != Assigned.end())
+			{
+				Date tempDue(it->getDueDate(), DateFormat::US);
+				if (tempDue >= due)
+				{
+					Assigned.insert(it, tempAssignment);
+				}
+				++it;
+			}
 		}
+	}
+	else
+	{
+		Completed.push_back(tempAssignment);
 	}
 }
 

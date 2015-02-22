@@ -34,7 +34,8 @@ void UI::displayMenu(){
 		break;
 	case 'B': break;
 	case 'I':
-		ifstream fin("input.txt"); //still need to get file from user, put in assignments header
+		fileName = GetFileName(5, 20, EXT);
+		ifstream fin(fileName); 
 		ofstream fout("output.txt");
 		org.importHomework(fin);
 		org.printHomework();

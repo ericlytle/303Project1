@@ -63,6 +63,7 @@ string GetFileName(int minLength, int maxLength, string validExtension)
 		unsigned int index = 0;
 		string fileName = "";
 		string fileExtension = "";
+		cout << "Enter Your File Name - Text Files only\n->";
 		fileName = GetUserString(minLength, maxLength, "");
 		while (fileName[index] != '.' && index < fileName.length())
 		{
@@ -102,9 +103,9 @@ string GetUserString(int minLength, int maxLength, string validInput)
 	string userString = "";
 	while (true)
 	{
+		
 		cin >> userString;
-		if (!IsAlphaNumeric(userString)) cout << "Invalid input: Must be alpha-numeric, period, dash, or underscore. " << endl;
-		else if (validInput != "" && userString.find(validInput) == string::npos) cout << "Invalid input. " << endl;
+		if (validInput != "" && userString.find(validInput) == string::npos) cout << "Invalid input. " << endl;
 		else if (static_cast<int>(userString.length()) < minLength) cout << "Too short. " << endl;
 		else if (static_cast<int>(userString.length()) > maxLength) cout << "Too long. " << endl;
 		else return userString;
