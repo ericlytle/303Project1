@@ -13,13 +13,14 @@ class Assignments {
 public:
 	void addAssignment(string dueDate, string assignedDate, string Description, string Status);
 	Homework getHomework(string date);
-	void importHomework(ifstream& file);
-	void exportHomework(ofstream& file);
+	void importHomework(string& fileName);
+	void exportHomework(string& fileName);
 	void printHomework();
-	void editAssignment(string assignedDate);
+	void setFileName();
 private:
 	list<Homework> Assigned;
 	list<Homework> Completed;
+	string fileName;
 };
 
 void Assignments::addAssignment(string dueDate, string assignedDate, string Description, string Status)
@@ -29,22 +30,7 @@ void Assignments::addAssignment(string dueDate, string assignedDate, string Desc
 	Date due(dueDate,  DateFormat::US);
 	if (tempAssignment.getStatus() == "assigned")
 	{
-		//Assigned.push_back(tempAssignment);
-		if (Assigned.empty())
-			Assigned.push_back(tempAssignment);
-		else
-		{
-			it = Assigned.begin();
-			while (it != Assigned.end())
-			{
-				Date tempDue(it->getDueDate(), DateFormat::US);
-				if (tempDue >= due)
-				{
-					Assigned.insert(it, tempAssignment);
-				}
-				++it;
-			}
-		}
+		Assigned.push_back(tempAssignment);
 	}
 	else
 	{
@@ -63,7 +49,8 @@ Homework Assignments::getHomework(string assignedDate){
 	}
 }
 
-void Assignments::importHomework(ifstream& file){
+void Assignments::importHomework(string& fileName){
+	ifstream file(fileName);
 	string tempData, dueDate, assignedDate, description, status;
 	stringstream ss;
 	while (file.good()){
@@ -76,6 +63,7 @@ void Assignments::importHomework(ifstream& file){
 		addAssignment(dueDate, assignedDate, description, status);
 		ss.clear();		
 	}
+	file.close();
 }
 
 void Assignments::printHomework(){ //this is only for testing purposes
@@ -91,7 +79,8 @@ void Assignments::printHomework(){ //this is only for testing purposes
 	}
 }
 
-void Assignments::exportHomework(ofstream& file){
+void Assignments::exportHomework(string& fileName){
+	ofstream file(fileName);
 	list<Homework>::iterator itAssigned = Assigned.begin(), itCompleted = Completed.begin();
 	while (itAssigned != Assigned.end()){
 		file << itAssigned->getAssignedDate() + ", " + itAssigned->getDescription() + ", "
@@ -104,4 +93,9 @@ void Assignments::exportHomework(ofstream& file){
 			+ itCompleted->getDueDate() + ", " + itCompleted->getStatus() << endl;
 		++itCompleted;
 	}
+	file.close();
+}
+
+void Assignments::setFileName(){
+	fileName = GetFileName(5, 20, EXT);
 }
