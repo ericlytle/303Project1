@@ -22,6 +22,7 @@ bool IsAlphaNumeric(string c);
 bool dateRangeIsValid(Date assignedDate, Date dueDate);
 bool stringIsValidDate(string d);
 bool stringIsValidAssignmentStatus(string status);
+bool IsNumeric(string c);
 
 bool dateRangeIsValid(Date assignedDate, Date dueDate)
 {
@@ -32,6 +33,17 @@ bool dateRangeIsValid(Date assignedDate, Date dueDate)
 bool stringIsValidDate(string date)
 {
 	// check for 0000-00-00 string before entering try block
+	for (unsigned int i = 0; i < date.length(); i++)
+	{
+		if ((i < 4) || (i == 5 || i == 6) || (i == 8 || i == 9))
+		{
+			// if not digit, invalid
+			if (!IsNumeric(date[i]))
+			{
+				return false;
+			}
+		}
+	}
 	try
 	{
 		Date date(date);
@@ -107,8 +119,8 @@ string GetUserString(int minLength, int maxLength, string validInput)
 	while (true)
 	{
 		cin >> userString;
-		if (!IsAlphaNumeric(userString)) cout << "Invalid input: Must be alpha-numeric, period, dash, or underscore. " << endl;
-		else if (validInput != "" && userString.find(validInput) == string::npos) cout << "Invalid input. " << endl;
+		//if (!IsAlphaNumeric(userString)) cout << "Invalid input: Must be alpha-numeric, period, dash, or underscore. " << endl;
+		/*else*/ if (validInput != "" && userString.find(validInput) == string::npos) cout << "Invalid input. " << endl;
 		else if (static_cast<int>(userString.length()) < minLength) cout << "Too short. " << endl;
 		else if (static_cast<int>(userString.length()) > maxLength) cout << "Too long. " << endl;
 		else return userString;
@@ -130,6 +142,11 @@ bool IsAlphaNumeric(string c)
 			|| (c[i] >= 97 && c[i] <= 122))) return false;
 	}
 	return true;
+}
+
+bool IsNumeric(char c)
+{
+	return c >= 48 && c <= 57;
 }
 
 string NumberToStringBuilder(double number)
