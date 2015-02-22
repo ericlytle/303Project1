@@ -13,9 +13,13 @@
 
 using namespace std;
 
+#pragma region Constants
 const unsigned int MAX_STRING = 50; // max length of user input string
 const string EXT = ".txt"; // valid file extention
+#pragma endregion
 
+
+#pragma region Prototypes
 bool IsInString(string s1, string s2);
 string NumberToStringBuilder(double number);
 string GetFileName(int minLength, int maxLength, string validExtension);
@@ -26,14 +30,20 @@ bool stringIsValidDate(string d);
 bool stringIsValidAssignmentStatus(string status);
 bool IsNumeric(char c);
 string makeLowercase(string s);
+#pragma endregion
 
+#pragma region Definitions
 bool dateRangeIsValid(Date assignedDate, Date dueDate)
+// returns True is the assignedDate is less than or
+// equal to the dueDate, otherwise returns False
 {
 	return assignedDate <= dueDate;
 }
 
 // test this
 bool stringIsValidDate(string date)
+// returns True if string "date" represents a valid format
+// for dates passed into the Date.h object, otherwise false
 {
 	// check for 0000-00-00 string before entering try block
 	// only checks those places that should be digits, does not check delimeters
@@ -60,6 +70,8 @@ bool stringIsValidDate(string date)
 }
 
 bool stringIsValidAssignmentStatus(string status)
+// returns True if string status matches one of the three
+// valid assignment status types, otherwise returns false
 {
 	string s = makeLowercase(status);
 	return s == "assigned" || s == "late" || s == "completed";
@@ -113,7 +125,7 @@ string GetFileName(int minLength, int maxLength, string validExtension)
 }
 
 string GetUserString(int minLength, int maxLength, string validInput)
-// Gets an alpha-numeric string from user within a length range.
+// Gets an alpha-numeric string from user within a length range. <-- commented out AlphaNumeric check below
 // Checks user input against a validInput string that's passed into the function.
 // If you don't want to check input against validInput string, pass an empty string "" into
 // the function.
@@ -149,6 +161,7 @@ bool IsAlphaNumeric(string c)
 }
 
 bool IsNumeric(char c)
+// True if char c is numeric, otherwise false
 {
 	return c >= 48 && c <= 57;
 }
@@ -164,6 +177,8 @@ string NumberToStringBuilder(double number)
 }
 
 string makeLowercase(string s)
+// Takes a string, converts to lowercase (if possible),
+// returns lowercase string
 {
 	char c;
 	char str[] = "";
@@ -182,3 +197,4 @@ string makeLowercase(string s)
 	}
 	return lower;
 }
+#pragma endregion
