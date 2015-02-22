@@ -11,7 +11,6 @@ public:
 private:
 	Assignments org;
 	static string Menu;
-	string fileName;
 };
 
 string UI::Menu("Choose from one of the following:\n\
@@ -38,7 +37,7 @@ void UI::displayMenu(){
 	case 'A': //Add Assignment
 		cout << "Due Date:(YYYY/MM/DD) ";
 		cin >> dueDate;
-		while (!stringIsValidDate(dueDate)){
+		/*while (!stringIsValidDate(dueDate)){
 			cout << "Invalid Date. Retry. Makes sure date is in (YYYY/MM/DD) format " << endl << "-->";
 		cin >> dueDate;
 		}
@@ -47,7 +46,7 @@ void UI::displayMenu(){
 		while (!stringIsValidDate(assignedDate)){
 			cout << "Invalid Date. Retry. Makes sure date is in (YYYY/MM/DD) format" << endl << "-->";
 			cin >> dueDate;
-		}
+		}*/
 		cout << endl << "Description: ";
 		getline(cin, Description);
 		cout << endl << "Status: ";
@@ -58,16 +57,7 @@ void UI::displayMenu(){
 	case 'C': break;//complete assignment
 	case 'D': break; //Display Assignment(s)
 	case 'E': break; //Display number of late assignments
-	case 'I':
-		fileName = GetFileName(5, 20, EXT);
-		ifstream fin(fileName); 
-		ofstream fout("output.txt");
-		org.importHomework(fin);
-		org.printHomework();
-		org.exportHomework(fout);
-		fin.close();
-		fout.close();
-		break;
+	case 'I': org.setFileName(); break; //currently imports, and exports for ease of testing break;
 	case 'S': break; //save I.E. export
 
 	}
