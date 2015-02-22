@@ -12,10 +12,13 @@ public:
 	void setDescription(string description);
 	void setStatus(string status);
 private:
-	string dueDate, assignedDate, Description, Status;
+	string Description, Status, dueDate, assignedDate;
+	//Date dueDate, assignedDate;
 };
 
 Homework::Homework(string dDate = "", string aDate = "", string Descrip = "", string Stat = ""){
+	//Date tempDue(dDate);
+	//Date tempAssign(aDate);
 	dueDate = dDate;
 	assignedDate = aDate;
 	Description = Descrip;

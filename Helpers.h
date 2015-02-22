@@ -31,30 +31,30 @@ bool dateRangeIsValid(Date assignedDate, Date dueDate)
 }
 
 // test this
-bool stringIsValidDate(string date)
-{
-	// check for 0000-00-00 string before entering try block
-	for (unsigned int i = 0; i < date.length(); i++)
-	{
-		if ((i < 4) || (i == 5 || i == 6) || (i == 8 || i == 9))
-		{
-			// if not digit, invalid
-			if (!IsNumeric(date[i]))
-			{
-				return false;
-			}
-		}
-	}
-	try
-	{
-		Date date(date);
-		return true;
-	}
-	catch (exception)
-	{
-		return false;
-	}
-}
+//bool stringIsValidDate(string date)
+//{
+//	// check for 0000-00-00 string before entering try block
+//	for (unsigned int i = 0; i < date.length(); i++)
+//	{
+//		if ((i < 4) || (i == 5 || i == 6) || (i == 8 || i == 9))
+//		{
+//			// if not digit, invalid
+//			if (!IsNumeric(date[i]))
+//			{
+//				return false;
+//			}
+//		}
+//	}
+//	try
+//	{
+//		Date date(date);
+//		return true;
+//	}
+//	catch (exception)
+//	{
+//		return false;
+//	}
+//}
 
 bool stringIsValidAssignmentStatus(string status)
 {

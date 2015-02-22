@@ -16,6 +16,7 @@ public:
 	void importHomework(ifstream& file);
 	void exportHomework(ofstream& file);
 	void printHomework();
+	void editAssignment(string assignedDate);
 private:
 	list<Homework> Assigned;
 	list<Homework> Completed;
