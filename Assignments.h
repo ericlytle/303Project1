@@ -20,12 +20,21 @@ private:
 	list<Homework> Completed;
 };
 
-void Assignments::addAssignment(string dueDate, string assignedDate, string Description, string Status){
-	Homework tempAssignment(dueDate, assignedDate, Description, Status);
-	if (tempAssignment.getStatus() == "assigned")
-		Assigned.push_back(tempAssignment);
-	else //need error checking for not of three status types
-		Completed.push_back(tempAssignment);
+void Assignments::addAssignment(string dueDate, string assignedDate, string Description, string Status)
+{
+	if (stringIsValidAssignmentStatus(Status) && stringIsValidDate(dueDate) && stringIsValidDate(assignedDate))
+	{
+		Homework tempAssignment(dueDate, assignedDate, Description, Status);
+		if (tempAssignment.getStatus() == "assigned")
+		{
+			// check date, insert in the correct spot
+			Assigned.push_back(tempAssignment);
+		}
+		else //need error checking for not of three status types
+		{
+			Completed.push_back(tempAssignment);
+		}
+	}
 }
 
 Homework Assignments::getHomework(string assignedDate){
