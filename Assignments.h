@@ -56,6 +56,7 @@ void Assignments::importHomework(string& fileName){
 	ifstream file(fileName);
 	string tempData, dueDate, assignedDate, description, status;
 	stringstream ss;
+	Date Helper;
 	while (file.good()){
 		getline(file, tempData);
 		if (tempData == "") continue;
@@ -63,7 +64,7 @@ void Assignments::importHomework(string& fileName){
 		tempData.erase(std::remove(tempData.begin(), tempData.end(), ','), tempData.end()); //pops commas
 		ss << tempData;
 		ss >> assignedDate >> description >> dueDate >> status;		
-		addAssignment(dueDate, assignedDate, description, status);
+		addAssignment(Helper.parseDate(dueDate,Standard), Helper.parseDate(assignedDate,Standard), description, status);
 		ss.clear();		
 	}
 	file.close();
