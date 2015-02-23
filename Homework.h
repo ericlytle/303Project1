@@ -12,11 +12,13 @@ public:
 	void setDescription(string description);
 	void setStatus(string status);
 private:
-	string dueDate, assignedDate, Description, Status; 
+	string Description, Status; 
+	Date dueDate, assignedDate;
 };
 
 Homework::Homework(string dDate = "", string aDate = "", string Descrip = "", string Stat = ""){
-	dueDate = dDate;
+	dueDate = dueDate.parseDate(dDate, DateFormat::Standard);
+	assignedDate = assignedDate.parseDate(aDate, DateFormat::Standard);
 	assignedDate = aDate;
 	Description = Descrip;
 	Status = Stat;
