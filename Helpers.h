@@ -15,7 +15,7 @@ using namespace std;
 
 #pragma region Constants
 const unsigned int MAX_STRING = 50; // max length of user input string
-const string EXT = ".txt"; // valid file extention
+const string EXT = ".txt"; // valid file extension
 #pragma endregion
 
 #pragma region Prototypes
@@ -51,18 +51,18 @@ bool stringIsValidDate(string date)
 	// check for 0000-00-00 string before entering try block
 	for (unsigned int i = 0; i < date.length(); i++)
 	{
-		if ((i < 4) || (i == 5 || i == 6) || (i == 8 || i == 9))
+		if (i == 4 || i == 7)
 		{
-			// if not digit, invalid
-			if (!IsNumeric(date[i]))
+			// if is digit, invalid
+			if (IsNumeric(date[i]))
 			{
 				return false;
 			}
 		}
 		else
 		{
-			// if digit, invalid
-			if (IsNumeric(date[i]))
+			// if not digit, invalid
+			if (!IsNumeric(date[i]))
 			{
 				return false;
 			}
@@ -89,11 +89,10 @@ bool stringIsValidAssignmentStatus(string status)
 }
 
 bool IsInString(string s1, string s2)
-// Returns True of string s1 in in string s2.
+// Returns True of string s1 is in string s2.
 // Otherwise, returns False.
 {
-	if (s2.find(s1) != string::npos) return true;
-	else return false;
+	return s2.find(s1) != string::npos;
 }
 
 string GetFileName(int minLength, int maxLength, string validExtension)
