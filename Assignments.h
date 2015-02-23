@@ -11,7 +11,7 @@
 using namespace std;
 class Assignments {
 public:
-	void addAssignment(string dueDate, string assignedDate, string Description, string Status);
+	void addAssignment(Date dueDate, Date assignedDate, string Description, string Status);
 	Homework getHomework(string date);
 	void importHomework(string& fileName);
 	void exportHomework(string& fileName);
@@ -23,11 +23,10 @@ private:
 	string fileName;
 };
 
-void Assignments::addAssignment(string dueDate, string assignedDate, string Description, string Status)
+void Assignments::addAssignment(Date dueDate, Date assignedDate, string Description, string Status)
 {
 	list<Homework>::iterator it;
 	Homework tempAssignment(dueDate, assignedDate, Description, Status);
-	Date due(dueDate,  DateFormat::US);
 	if (tempAssignment.getStatus() == "assigned")
 	{
 		Assigned.push_back(tempAssignment);
@@ -83,14 +82,14 @@ void Assignments::exportHomework(string& fileName){
 	ofstream file(fileName);
 	list<Homework>::iterator itAssigned = Assigned.begin(), itCompleted = Completed.begin();
 	while (itAssigned != Assigned.end()){
-		file << itAssigned->getAssignedDate() + ", " + itAssigned->getDescription() + ", "
-			 + itAssigned->getDueDate() + ", " + itAssigned->getStatus() << endl;
+		file << itAssigned->getAssignedDate().toString() + ", " + itAssigned->getDescription() + ", "
+			 + itAssigned->getDueDate().toString() + ", " + itAssigned->getStatus() << endl;
 		++itAssigned;
 	}
 	cout << endl << endl;
 	while (itCompleted != Completed.end()){
-		file << itCompleted->getAssignedDate() + ", " + itCompleted->getDescription() + ", "
-			+ itCompleted->getDueDate() + ", " + itCompleted->getStatus() << endl;
+		file << itCompleted->getAssignedDate().toString() + ", " + itCompleted->getDescription() + ", "
+			+ itCompleted->getDueDate().toString() + ", " + itCompleted->getStatus() << endl;
 		++itCompleted;
 	}
 	file.close();

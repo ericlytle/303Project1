@@ -11,6 +11,7 @@ public:
 private:
 	Assignments org;
 	static string Menu;
+	Date dDate, aDate;
 };
 
 string UI::Menu("Choose from one of the following:\n\
@@ -37,17 +38,21 @@ void UI::displayMenu(){
 	case 'A': //Add Assignment
 		cout << "Due Date:(YYYY/MM/DD) ";
 		cin >> dueDate;
-		/*while (!stringIsValidDate(dueDate)){
+		while (!stringIsValidDate(dueDate)){
 			cout << "Invalid Date. Retry. Makes sure date is in (YYYY/MM/DD) format " << endl << "-->";
 		cin >> dueDate;
 		}
+		dDate = dDate.parseDate(dueDate, Standard);
 		cout << endl << "Assigned Date:(YYYY/MM/DD) ";
 		cin >> assignedDate;
-		while (!stringIsValidDate(assignedDate)){
+		aDate = aDate.parseDate(assignedDate, Standard);
+		while (!stringIsValidDate(assignedDate) || !dateRangeIsValid(aDate,dDate)){
 			cout << "Invalid Date. Retry. Makes sure date is in (YYYY/MM/DD) format" << endl << "-->";
-			cin >> dueDate;
-		}*/
+			cin >> assignedDate;
+			aDate = aDate.parseDate(assignedDate, Standard);
+		}
 		cout << endl << "Description: ";
+		cin.ignore();
 		getline(cin, Description);
 		cout << endl << "Status: ";
 		cin >> Status;
