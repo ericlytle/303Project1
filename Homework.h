@@ -11,6 +11,7 @@ public:
 	void setAssignedDate(string date);
 	void setDescription(string description);
 	void setStatus(string status);
+	bool operator ==(Homework HW) const;
 private:
 	string  Description, Status;
 	Date dueDate, assignedDate;
@@ -53,5 +54,9 @@ void Homework::setDescription(string description){
 
 void Homework::setStatus(string status){
 	Status = status;
+}
+
+bool Homework::operator==(Homework HW) const{
+	return Description == HW.getDescription() && Status == HW.getStatus() && dueDate == HW.getDueDate() && assignedDate == HW.getAssignedDate();
 }
 

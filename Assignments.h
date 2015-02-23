@@ -17,28 +17,32 @@ public:
 	void exportHomework(string& fileName);
 	void printHomework();
 	void setFileName();
+	void displayAssignments();
 private:
 	list<Homework> Assigned;
 	list<Homework> Completed;
+	list<Homework>::iterator it;
 	string fileName;
+	bool assignmentExists(Homework HW);
+	//returns true if the assignment exists. 
 };
 
 void Assignments::addAssignment(Date dueDate, Date assignedDate, string Description, string Status)
 {
-	list<Homework>::iterator it;
 	Homework tempAssignment(dueDate, assignedDate, Description, Status);
-	if (tempAssignment.getStatus() == "assigned")
-	{
-		Assigned.push_back(tempAssignment);
-	}
-	else
-	{
-		Completed.push_back(tempAssignment);
+	if (!assignmentExists(tempAssignment)){ //quick addition to show the use of new private method
+		if (tempAssignment.getStatus() == "assigned")
+		{
+			Assigned.push_back(tempAssignment);
+		}
+		else
+		{
+			Completed.push_back(tempAssignment);
+		}
 	}
 }
 
 Homework Assignments::getHomework(string assignedDate){
-	list<Homework>::iterator it;
 	for (it = Assigned.begin(); it != Assigned.end(); ++it){
 		if (it->getAssignedDate() == assignedDate){
 			return *it;
@@ -99,5 +103,47 @@ void Assignments::setFileName(){
 	fileName = GetFileName(5, 20, EXT);
 }
 
+void Assignments::displayAssignments(){
+	cout << "--------Assigned---------" << endl;
+	it = Assigned.begin();
+	if (it == Assigned.end()){
+		cout << "0 'Assigned' assignments" << endl << endl;
+	}
+	else{
+		while (it != Assigned.end()){
+			cout << "Description:   " << it->getDescription() << endl;
+			cout << "Assigned Date: " << it->getAssignedDate().toString() << endl;
+			cout << "Due Date:      " << it->getDueDate().toString() << endl;
+			cout << "Status:        " << it->getStatus() << endl << endl;
+			++it;
+		}
+	}
 
-//delete this comment
+	it = Completed.end();
+	cout << "--------Complete---------" << endl;
+	if (it == Completed.end()){
+		cout << "0 'Completed' assignments" << endl << endl;
+	}
+	else{
+		while(it != Completed.end()){
+			cout << "Description:   " << it->getDescription() << endl;
+			cout << "Assigned Date: " << it->getAssignedDate().toString() << endl;
+			cout << "Due Date:      " << it->getDueDate().toString() << endl;
+			cout << "Status:        " << it->getStatus() << endl << endl;
+			++it;
+		}
+	}
+
+
+}
+
+bool Assignments::assignmentExists(Homework HW){
+	//returns true if the assignment already exists and false otherwise. 
+	it = Assigned.begin();
+	while (it != Assigned.end()){
+		if (*it == HW)
+			return true;
+		++it;
+	}
+	return false;
+}
