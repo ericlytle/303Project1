@@ -49,7 +49,6 @@ void Assignments::addAssignment(Date dueDate, Date assignedDate, string Descript
 					++it;
 				Assigned.insert(it, tempHmwrk);
 			}
-
 		}
 	}
 	else
@@ -84,16 +83,33 @@ Homework Assignments::getHomework(Date assignedDate){
 void Assignments::importHomework(string& fileName){
 	ifstream file(fileName);
 	string tempData, dueDate, assignedDate, description, status;
-	stringstream ss;
-	Date tempDate;
 	while (file.good()){
 		getline(file, tempData);
 		if (tempData == "") continue;
-		//still needs to call a sort method for dates, file contains chronological dates only
-		tempData.erase(std::remove(tempData.begin(), tempData.end(), ','), tempData.end()); //pops commas
-		ss << tempData;
-		ss >> assignedDate >> description >> dueDate >> status;		
-		addAssignment(tempDate.parseDate(dueDate,US), tempDate.parseDate(assignedDate,US), description, status);
+		
+		int count = 0;
+		stringstream ss(tempData);
+		
+		while (getline(ss, tempData, ',')) //split string by comma
+		{
+			size_t first = tempData.find_first_not_of(' '); //remove spaces front and back
+			size_t last = tempData.find_last_not_of(' ');
+			tempData = tempData.substr(first, last + 1);
+
+			switch (count)
+			{
+			case 0: assignedDate = tempData; ++count; break;
+			case 1: description = tempData; ++count; break;
+			case 2: dueDate = tempData; ++count; break;
+			case 3: status = tempData; ++count; break;
+			}
+		}
+
+		Date tempDueDate(dueDate,US), tempAssnDate(assignedDate,US); //convert 
+		Date tempDueDateStd(tempDueDate.getYear(), tempDueDate.getMonth(), tempDueDate.getDay(), Standard);
+		Date tempAssnDateStd(tempAssnDate.getYear(), tempAssnDate.getMonth(), tempAssnDate.getDay(), Standard);
+		
+		addAssignment(tempDueDateStd, tempAssnDateStd, description, status);
 		ss.clear();		
 	}
 	file.close();
@@ -103,16 +119,29 @@ void Assignments::exportHomework(string& fileName){
 	//iterates through both lists and writes them to textfile, overwrites input textfile
 	ofstream file("output.txt"); //"output.txt for testing purpose eventually change to fileName
 	static string comSpace = ", ";
-	list<Homework>::iterator itAssigned = Assigned.begin(), itCompleted = Completed.begin();
-	while (itAssigned != Assigned.end()){
-		file << itAssigned->getAssignedDate().toString() + comSpace + itAssigned->getDescription() + comSpace
-			+ itAssigned->getDueDate().toString() + comSpace + itAssigned->getStatus() << endl;
-		++itAssigned;
+	it = Assigned.begin();
+	while (it != Assigned.end()){
+		
+		Date tempDueDate((it->getDueDate()).getYear(), (it->getDueDate()).getMonth(), (it->getDueDate()).getDay(), US);
+		it->setDueDate(tempDueDate);
+		Date tempAssnDate((it->getAssignedDate()).getYear(), (it->getAssignedDate()).getMonth(), (it->getAssignedDate()).getDay(), US);
+		it->setAssignedDate(tempAssnDate);
+		
+		file << it->getAssignedDate().toString() + comSpace + it->getDescription() + comSpace
+			+ it->getDueDate().toString() + comSpace + it->getStatus() << endl;
+		++it;
 	}
-	while (itCompleted != Completed.end()){
-		file << itCompleted->getAssignedDate().toString() + comSpace + itCompleted->getDescription() + comSpace
-			+ itCompleted->getDueDate().toString() + comSpace + itCompleted->getStatus() << endl;
-		++itCompleted;
+	it = Completed.begin();
+	while (it != Completed.end()){
+		
+		Date tempDueDate((it->getDueDate()).getYear(), (it->getDueDate()).getMonth(), (it->getDueDate()).getDay(), US);
+		it->setDueDate(tempDueDate);
+		Date tempAssnDate((it->getAssignedDate()).getYear(), (it->getAssignedDate()).getMonth(), (it->getAssignedDate()).getDay(), US);
+		it->setAssignedDate(tempAssnDate);
+
+		file << it->getAssignedDate().toString() + comSpace + it->getDescription() + comSpace
+			+ it->getDueDate().toString() + comSpace + it->getStatus() << endl;
+		++it;
 	}
 	file.close();
 }

@@ -9,7 +9,7 @@ public:
 	string getDescription();
 	string getStatus();
 	void setDueDate(Date date);
-	void setAssignedDate(string date);
+	void setAssignedDate(Date date);
 	void setDescription(string description);
 	void setStatus(string status);
 	bool operator ==(Homework HW) const;
@@ -53,8 +53,8 @@ void Homework::setDueDate(Date date){
 
 }
 
-void Homework::setAssignedDate(string date){
-	assignedDate = assignedDate.parseDate(date, Standard);
+void Homework::setAssignedDate(Date date){
+	assignedDate = date;
 }
 
 void Homework::setDescription(string description){
