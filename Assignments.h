@@ -150,9 +150,9 @@ void Assignments::editAssignment(Date date){
 	string choice, newDescription, newDueDate;
 	Date parser;
 	//find the assignment and set iterator
-	getHomework(date);
 	try
 	{
+		getHomework(date);
 		cout << "Choose from the following:\n"
 			<< "[A]: Edit Due Date\n"
 			<< "[B]: Edit Description\n"
@@ -168,13 +168,13 @@ void Assignments::editAssignment(Date date){
 		case 'A':
 			cout << "New Due Date:\n--> ";
 			cin >> newDueDate;
-			parser = parser.parseDate(newDueDate, Standard);
+			/*parser = parser.parseDate(newDueDate, Standard);
 			while (!stringIsValidDate(newDueDate) || !dateRangeIsValid(it->getAssignedDate(), parser)){
 				cout << "Invalid Date. Retry. Makes sure date is in (YYYY/MM/DD) format" << endl << "-->";
 				cin >> newDueDate;
 				parser = parser.parseDate(newDueDate, Standard);
-			}
-			it->setDueDate(parser);
+			}*/
+			it->setDueDate(dueDateCheck(newDueDate,it->getAssignedDate()));
 			break;
 		case 'B': 
 			cout << "New Description:\n--> ";
