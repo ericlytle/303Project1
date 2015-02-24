@@ -41,29 +41,17 @@ void UI::displayMenu(){
 		case 'A': //Add Assignment
 			cout << "Due Date:(YYYY/MM/DD) ";
 			cin >> dueDate;
-			while (!stringIsValidDate(dueDate)){
-				cout << "Invalid Date. Retry. Makes sure date is in (YYYY/MM/DD) format " << endl << "-->";
-				cin >> dueDate;
-			}
-			dDate = dDate.parseDate(dueDate, Standard);
+			dDate = dueDateCheck(dueDate, aDate);
 			cout << endl << "Assigned Date:(YYYY/MM/DD) ";
 			cin >> assignedDate;
-			aDate = aDate.parseDate(assignedDate, Standard);
-			while (!stringIsValidDate(assignedDate) || !dateRangeIsValid(aDate, dDate)){
-				cout << "Invalid Date. Retry. Makes sure date is in (YYYY/MM/DD) format" << endl << "-->";
-				cin >> assignedDate;
-				aDate = aDate.parseDate(assignedDate, Standard);
-			}
+			aDate = assignedDateCheck(assignedDate, dDate);
 			cout << endl << "Description: ";
 			cin.ignore();
 			getline(cin, Description);
 			cout << endl << "Status: ";
 			cin >> Status;
-			while (!stringIsValidAssignmentStatus(Status)){
-				cout << "Invalid Status. Retry." << endl << "-->";
-				cin >> Status;
-			}
-			org.addAssignment(dueDate, assignedDate, Description, Status);
+			statusCheck(Status);
+			org.addAssignment(dDate, aDate, Description, Status);
 			break;
 		case 'B':
 			cout << "Enter Assigned Date: ";

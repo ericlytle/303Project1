@@ -208,4 +208,32 @@ string makeLowercase(string s)
 	delete[] str;
 	return lower;
 }
+Date dueDateCheck(string stringDueDate, Date aDate){
+	Date parser;
+	parser = parser.parseDate(stringDueDate, Standard);
+	while (!stringIsValidDate(stringDueDate) || !dateRangeIsValid(aDate,parser)){
+		cout << "Invalid Date. Retry. Makes sure date is in (YYYY/MM/DD) format" << endl << "-->";
+		cin >> stringDueDate;
+		parser.parseDate(stringDueDate, Standard);
+	}
+	return parser;
+}
+
+Date assignedDateCheck(string stringAssignedDate, Date dDate){
+	Date parser;
+	parser = parser.parseDate(stringAssignedDate, Standard);
+	while (!stringIsValidDate(stringAssignedDate) || !dateRangeIsValid(parser, dDate)){
+		cout << "Invalid Date. Retry." << endl << "-->";
+		cin >> stringAssignedDate;
+		parser = parser.parseDate(stringAssignedDate, Standard);
+	}
+	return parser;
+}
+
+void statusCheck(string& status){
+	while (!stringIsValidAssignmentStatus(status)){
+		cout << "Invalid Status. Retry." << endl << "-->";
+		cin >> status;
+	}
+}
 #pragma endregion
