@@ -211,7 +211,10 @@ string makeLowercase(string s)
 	delete[] str;
 	return lower;
 }
-Date dueDateCheck(string stringDueDate, Date aDate){
+
+Date dueDateCheck(string stringDueDate, Date aDate)
+// comments
+{
 	Date parser;
 	parser = parser.parseDate(stringDueDate, Standard);
 	while (!stringIsValidDate(stringDueDate) || !dateRangeIsValid(aDate,parser)){
@@ -222,7 +225,9 @@ Date dueDateCheck(string stringDueDate, Date aDate){
 	return parser;
 }
 
-Date assignedDateCheck(string stringAssignedDate, Date dDate){
+Date assignedDateCheck(string stringAssignedDate, Date dDate)
+// comments
+{
 	Date parser;
 	parser = parser.parseDate(stringAssignedDate, Standard);
 	while (!stringIsValidDate(stringAssignedDate) || !dateRangeIsValid(parser, dDate)){
@@ -233,7 +238,9 @@ Date assignedDateCheck(string stringAssignedDate, Date dDate){
 	return parser;
 }
 
-void statusCheck(string& status){
+void statusCheck(string& status)
+// comments
+{
 	while (!stringIsValidAssignmentStatus(status)){
 		cout << "Invalid Status. Retry." << endl << "-->";
 		cin >> status;
