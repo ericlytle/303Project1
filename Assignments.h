@@ -31,6 +31,9 @@ private:
 };
 
 void Assignments::addAssignment(Date dueDate, Date assignedDate, string Description, string Status){
+	//Add assignment inserts each homework into the Completed and Assigned lists, the lists are maintained
+	//in ascending order, due dates are compared for sorting, both assigned and completed lists
+	//are sorted in this manor
 	Homework tempHmwrk(dueDate, assignedDate, Description, Status);
 	if (tempHmwrk.getStatus() == "assigned")
 	{
@@ -81,6 +84,8 @@ Homework Assignments::getHomework(Date assignedDate){
 }
 
 void Assignments::importHomework(string& fileName){
+	//reads in homkework from a text file, converts date from US to Standard
+	//each homework is then sent to the addAssignment method and inserted in appropiate list
 	ifstream file(fileName);
 	string tempData, dueDate, assignedDate, description, status;
 	while (file.good()){
@@ -105,7 +110,7 @@ void Assignments::importHomework(string& fileName){
 			}
 		}
 
-		Date tempDueDate(dueDate,US), tempAssnDate(assignedDate,US); //convert 
+		Date tempDueDate(dueDate,US), tempAssnDate(assignedDate,US); //convert US to Standard 
 		Date tempDueDateStd(tempDueDate.getYear(), tempDueDate.getMonth(), tempDueDate.getDay(), Standard);
 		Date tempAssnDateStd(tempAssnDate.getYear(), tempAssnDate.getMonth(), tempAssnDate.getDay(), Standard);
 		
@@ -117,6 +122,8 @@ void Assignments::importHomework(string& fileName){
 
 void Assignments::exportHomework(string& fileName){
 	//iterates through both lists and writes them to textfile, overwrites input textfile
+	//standard dates are converted to us dates before exporting, this is for purpose of user readability
+	//of the outputted textfile
 	ofstream file("output.txt"); //"output.txt for testing purpose eventually change to fileName
 	static string comSpace = ", ";
 	it = Assigned.begin();

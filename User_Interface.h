@@ -44,7 +44,7 @@ void UI::displayMenu()
 		choice = toupper(choice[0]);
 		switch (choice[0])
 		{
-		case 'A': //Add Assignment
+		case 'A': //Add Assignment // THIS NEEDS TO BE A METHOD IN ASSIGNMENT
 			cout << "Due Date:(YYYY/MM/DD) ";
 			cin >> dueDate;
 			dDate = dueDateCheck(dueDate, aDate);
