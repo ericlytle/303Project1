@@ -192,7 +192,7 @@ string makeLowercase(string s)
 // returns lowercase string
 {
 	char c;
-	char str[] = "";
+	char* str = new char[s.length()];
 	string lower = "";
 	// convert string s into str[]
 	for (unsigned int i = 0; i < s.length(); i++)
@@ -200,11 +200,10 @@ string makeLowercase(string s)
 		str[i] = s[i];
 	}
 	unsigned int i = 0;
-	while (str[i])
+	for (unsigned int j = 0; j < s.length(); j++)
 	{
-		c = str[i];
+		c = str[j];
 		lower += tolower(c);
-		i++;
 	}
 	return lower;
 }
