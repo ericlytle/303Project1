@@ -59,9 +59,22 @@ void UI::displayMenu(){
 			getline(cin, Description);
 			cout << endl << "Status: ";
 			cin >> Status;
+			while (!stringIsValidAssignmentStatus(Status)){
+				cout << "Invalid Status. Retry." << endl << "-->";
+				cin >> Status;
+			}
 			org.addAssignment(dueDate, assignedDate, Description, Status);
 			break;
-		case 'B': break; //edit assignment
+		case 'B':
+			cout << "Enter Assigned Date: ";
+			cin >> assignedDate;
+			if (makeLowercase(assignedDate) == "exit")
+				break;
+			if (stringIsValidDate(assignedDate)){
+				aDate = aDate.parseDate(assignedDate, Standard);
+				org.editAssignment(aDate);
+			}
+			break; //edit assignment
 		case 'C': break;//complete assignment
 		case 'D': org.displayAssignments(); break; //Display Assignment(s)
 		case 'E': break; //Display number of late assignments
