@@ -105,6 +105,7 @@ string GetFileName(int minLength, int maxLength, string validExtension)
 		unsigned int index = 0;
 		string fileName = "";
 		string fileExtension = "";
+		cout << "Please Enter Your Filename with .txt Extension -->";
 		fileName = GetUserString(minLength, maxLength, "");
 		while (fileName[index] != '.' && index < fileName.length())
 		{

@@ -65,8 +65,8 @@ void UI::displayMenu(){
 		case 'C': break;//complete assignment
 		case 'D': org.displayAssignments(); break; //Display Assignment(s)
 		case 'E': break; //Display number of late assignments
-		case 'I': org.setFileName(); break; //currently imports, and exports for ease of testing break;
-		case 'S': break; //save I.E. export
+		case 'I': org.setFileName(); org.inputUserFile(); break; //currently imports, and exports for ease of testing break;
+		case 'S': org.outputUserFile(); cout << "SAVE COMPLETE\n" << endl; break; //save I.E. export
 		case 'Q': run = false;
 
 		}
