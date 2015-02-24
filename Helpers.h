@@ -228,7 +228,7 @@ Date dueDateCheck(string stringDueDate, Date aDate)
 		{
 			cout << "Invalid Date Range. Retry. Due date must be after assigned date" << endl << "-->";
 		}
-		cin >> stringDueDate;
+		stringDueDate = GetUserString(4, MAX_STRING, "");
 		parser.parseDate(stringDueDate, Standard);
 	}
 	return parser;
@@ -255,7 +255,7 @@ Date assignedDateCheck(string stringAssignedDate, Date dDate)
 		{
 			cout << "Invalid Date Range. Retry. Assigned date must be before due date" << endl << "-->";
 		}
-		cin >> stringAssignedDate;
+		stringAssignedDate = GetUserString(4, MAX_STRING, "");
 		parser = parser.parseDate(stringAssignedDate, Standard);
 	}
 	return parser;
@@ -268,7 +268,7 @@ void statusCheck(string& status)
 	while (!stringIsValidAssignmentStatus(status))
 	{
 		cout << "Invalid Status. Retry.\nValid statuses include:\n1. assigned\n2. late\n3. completed\n-->";
-		cin >> status;
+		status = GetUserString(4, MAX_STRING, "");
 	}
 }
 #pragma endregion
