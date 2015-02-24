@@ -15,7 +15,6 @@ public:
 	Homework getHomework(string date);
 	void importHomework(string& fileName);
 	void exportHomework(string& fileName);
-	void printHomework();
 	void setFileName();
 	void displayAssignments();
 	void inputUserFile();
@@ -29,17 +28,44 @@ private:
 	//returns true if the assignment exists. 
 };
 
-void Assignments::addAssignment(Date dueDate, Date assignedDate, string Description, string Status)
-{
-	Homework tempAssignment(dueDate, assignedDate, Description, Status);
-	if (!assignmentExists(tempAssignment)){ //quick addition to show the use of new private method
-		if (tempAssignment.getStatus() == "assigned")
-		{
-			Assigned.push_back(tempAssignment);
-		}
+void Assignments::addAssignment(Date dueDate, Date assignedDate, string Description, string Status){
+	Homework tempHmwrk(dueDate, assignedDate, Description, Status);
+	if (tempHmwrk.getStatus() == "assigned")
+	{
+		if (Assigned.empty())
+			Assigned.push_back(tempHmwrk);
 		else
 		{
-			Completed.push_back(tempAssignment);
+			if (tempHmwrk.getDueDate() <= Assigned.front().getDueDate())
+				Assigned.push_front(tempHmwrk);
+			else if (tempHmwrk.getDueDate() >= Assigned.back().getDueDate())
+				Assigned.push_back(tempHmwrk);
+			else
+			{
+				it = Assigned.begin();
+				while (tempHmwrk.getDueDate() > it->getDueDate())
+					++it;
+				Assigned.insert(it, tempHmwrk);
+			}
+
+		}
+	}
+	else
+	{
+		if (Completed.empty())
+			Completed.push_back(tempHmwrk);
+		else
+		{
+			if (tempHmwrk.getDueDate() <= Completed.front().getDueDate())
+				Completed.push_front(tempHmwrk);
+			else if (tempHmwrk.getDueDate() >= Completed.back().getDueDate())
+				Completed.push_back(tempHmwrk);
+			else{
+				it = Completed.begin();
+				while (tempHmwrk.getDueDate() > it->getDueDate())
+					++it;
+				Completed.insert(it, tempHmwrk);
+			}
 		}
 	}
 }
@@ -73,17 +99,18 @@ void Assignments::importHomework(string& fileName){
 }
 
 void Assignments::exportHomework(string& fileName){
-	ofstream file("output.txt");
+	//iterates through both lists and writes them to textfile, overwrites input textfile
+	ofstream file("output.txt"); //"output.txt for testing purpose eventually change to fileName
+	static string comSpace = ", ";
 	list<Homework>::iterator itAssigned = Assigned.begin(), itCompleted = Completed.begin();
 	while (itAssigned != Assigned.end()){
-		file << itAssigned->getAssignedDate().toString() + ", " + itAssigned->getDescription() + ", "
-			 + itAssigned->getDueDate().toString() + ", " + itAssigned->getStatus() << endl;
+		file << itAssigned->getAssignedDate().toString() + comSpace + itAssigned->getDescription() + comSpace
+			+ itAssigned->getDueDate().toString() + comSpace + itAssigned->getStatus() << endl;
 		++itAssigned;
 	}
-	cout << endl << endl;
 	while (itCompleted != Completed.end()){
-		file << itCompleted->getAssignedDate().toString() + ", " + itCompleted->getDescription() + ", "
-			+ itCompleted->getDueDate().toString() + ", " + itCompleted->getStatus() << endl;
+		file << itCompleted->getAssignedDate().toString() + comSpace + itCompleted->getDescription() + comSpace
+			+ itCompleted->getDueDate().toString() + comSpace + itCompleted->getStatus() << endl;
 		++itCompleted;
 	}
 	file.close();
