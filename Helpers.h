@@ -205,6 +205,7 @@ string makeLowercase(string s)
 		c = str[j];
 		lower += tolower(c);
 	}
+	delete[] str;
 	return lower;
 }
 #pragma endregion
