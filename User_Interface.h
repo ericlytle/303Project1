@@ -4,7 +4,8 @@
 #include <istream>
 using namespace std;
 
-class UI {
+class UI 
+{
 public:
 	void displayMenu();
 	void getUserFileName();
@@ -14,6 +15,7 @@ private:
 	static string Menu;
 	Date dDate, aDate;
 };
+
 string UI::menuChoices("ABCDEISQabcdeisq");
 string UI::Menu("Choose from one of the following:\n\
 [A]: Add Assignment\n\
@@ -25,19 +27,23 @@ string UI::Menu("Choose from one of the following:\n\
 [S]: Save\n\
 [Q]: Quit\n");
 
-void UI::displayMenu(){
+void UI::displayMenu()
+{
 	bool run = true;
 	string choice;
 	string dueDate, assignedDate, Description, Status;
-	while (run){
+	while (run)
+	{
 		cout << Menu << "-->";
 		cin >> choice;
-		while (!IsInString(choice, menuChoices) || choice.length() > 1){
+		while (!IsInString(choice, menuChoices) || choice.length() > 1)
+		{
 			cout << "Invalid menu choice. Try again." << endl << "-->";
 			cin >> choice;
 		}
 		choice = toupper(choice[0]);
-		switch (choice[0]){
+		switch (choice[0])
+		{
 		case 'A': //Add Assignment
 			cout << "Due Date:(YYYY/MM/DD) ";
 			cin >> dueDate;
@@ -69,8 +75,8 @@ void UI::displayMenu(){
 		case 'I': org.setFileName(); org.inputUserFile(); break; //currently imports, and exports for ease of testing break;
 		case 'S': org.outputUserFile(); cout << "SAVE COMPLETE\n" << endl; break; //save I.E. export
 		case 'Q': run = false;
-
+		default: break;
 		}
+		cout << endl << endl;
 	}
-	
 }

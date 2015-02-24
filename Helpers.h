@@ -32,6 +32,7 @@ string makeLowercase(string s);
 Date dueDateCheck(string stringDueDate, Date aDate);
 Date assignedDateCheck(string stringAssignedDate, Date dDate);
 void statusCheck(string& status);
+void invalidDateMessage();
 #pragma endregion
 
 #pragma region Definitions
@@ -217,12 +218,25 @@ Date dueDateCheck(string stringDueDate, Date aDate)
 {
 	Date parser;
 	parser = parser.parseDate(stringDueDate, Standard);
-	while (!stringIsValidDate(stringDueDate) || !dateRangeIsValid(aDate,parser)){
-		cout << "Invalid Date. Retry. Makes sure date is in (YYYY/MM/DD) format" << endl << "-->";
+	while (!stringIsValidDate(stringDueDate) || !dateRangeIsValid(aDate, parser))
+	{
+		if (!stringIsValidDate(stringDueDate))
+		{
+			invalidDateMessage();
+		}
+		else if (!dateRangeIsValid(aDate, parser))
+		{
+			cout << "Invalid Date Range. Retry. Due date must be after assigned date" << endl << "-->";
+		}
 		cin >> stringDueDate;
 		parser.parseDate(stringDueDate, Standard);
 	}
 	return parser;
+}
+
+void invalidDateMessage()
+{
+	cout << "Invalid Date. Retry. Makes sure date is in (YYYY/MM/DD) format" << endl << "-->";
 }
 
 Date assignedDateCheck(string stringAssignedDate, Date dDate)
@@ -230,8 +244,16 @@ Date assignedDateCheck(string stringAssignedDate, Date dDate)
 {
 	Date parser;
 	parser = parser.parseDate(stringAssignedDate, Standard);
-	while (!stringIsValidDate(stringAssignedDate) || !dateRangeIsValid(parser, dDate)){
-		cout << "Invalid Date. Retry." << endl << "-->";
+	while (!stringIsValidDate(stringAssignedDate) || !dateRangeIsValid(parser, dDate))
+	{
+		if (!stringIsValidDate(stringAssignedDate))
+		{
+			invalidDateMessage();
+		}
+		else if (!dateRangeIsValid(parser, dDate))
+		{
+			cout << "Invalid Date Range. Retry. Assigned date must be before due date" << endl << "-->";
+		}
 		cin >> stringAssignedDate;
 		parser = parser.parseDate(stringAssignedDate, Standard);
 	}
@@ -241,8 +263,9 @@ Date assignedDateCheck(string stringAssignedDate, Date dDate)
 void statusCheck(string& status)
 // comments
 {
-	while (!stringIsValidAssignmentStatus(status)){
-		cout << "Invalid Status. Retry." << endl << "-->";
+	while (!stringIsValidAssignmentStatus(status))
+	{
+		cout << "Invalid Status. Retry.\nValid statuses include:\n1. assigned\n2. late\n3. completed\n-->";
 		cin >> status;
 	}
 }
