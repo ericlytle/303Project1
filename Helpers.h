@@ -102,14 +102,14 @@ bool IsInString(string s1, string s2)
 string GetFileName(int minLength, int maxLength, string validExtension)
 // Gets a filename from user.
 // Checks for length within bounds, alpha-numeric characters,
-// dashes, underscores, and valid file extensions.
+// dashes, underscores, and valid file extension.
 {
 	while (true)
 	{
 		unsigned int index = 0;
 		string fileName = "";
 		string fileExtension = "";
-		cout << "Please Enter Your Filename with .txt Extension -->";
+		cout << "Please Enter Your Filename with " << EXT << " Extension -->";
 		fileName = GetUserString(minLength, maxLength, "");
 		while (fileName[index] != '.' && index < fileName.length())
 		{
@@ -214,7 +214,7 @@ string makeLowercase(string s)
 }
 
 Date dueDateCheck(string stringDueDate, Date aDate)
-// comments
+// Checks the due date for valid format and valide date range against the assigned date
 {
 	Date parser;
 	parser = parser.parseDate(stringDueDate, Standard);
@@ -235,12 +235,13 @@ Date dueDateCheck(string stringDueDate, Date aDate)
 }
 
 void invalidDateMessage()
+// Message to user if date format is invalid
 {
 	cout << "Invalid Date. Retry. Makes sure date is in (YYYY/MM/DD) format" << endl << "-->";
 }
 
 Date assignedDateCheck(string stringAssignedDate, Date dDate)
-// comments
+// Checks the assigned date for valid format and valid date range against the due date
 {
 	Date parser;
 	parser = parser.parseDate(stringAssignedDate, Standard);
@@ -261,7 +262,8 @@ Date assignedDateCheck(string stringAssignedDate, Date dDate)
 }
 
 void statusCheck(string& status)
-// comments
+// Checks the validity of a status,
+// if invalid, alerts the user and prompts them to re-enter status
 {
 	while (!stringIsValidAssignmentStatus(status))
 	{

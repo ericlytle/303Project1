@@ -147,7 +147,7 @@ void Assignments::exportHomework(string& fileName){
 }
 
 void Assignments::setFileName(){
-	fileName = GetFileName(5, 20, EXT);
+	fileName = GetFileName(5, MAX_STRING, EXT);
 }
 void Assignments::inputUserFile(){
 	importHomework(fileName);
