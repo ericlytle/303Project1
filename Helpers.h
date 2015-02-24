@@ -29,6 +29,9 @@ bool stringIsValidDate(string d);
 bool stringIsValidAssignmentStatus(string status);
 bool IsNumeric(char c);
 string makeLowercase(string s);
+Date dueDateCheck(string stringDueDate, Date aDate);
+Date assignedDateCheck(string stringAssignedDate, Date dDate);
+void statusCheck(string& status);
 #pragma endregion
 
 #pragma region Definitions
