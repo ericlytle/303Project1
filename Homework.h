@@ -2,12 +2,13 @@
 using namespace std;
 class Homework{
 public:
+	Homework();
 	Homework(Date dDate, Date aDate, string Descrip, string Stat);
 	Date getDueDate();
 	Date getAssignedDate();
 	string getDescription();
 	string getStatus();
-	void setDueDate(string date);
+	void setDueDate(Date date);
 	void setAssignedDate(string date);
 	void setDescription(string description);
 	void setStatus(string status);
@@ -16,6 +17,13 @@ private:
 	string  Description, Status;
 	Date dueDate, assignedDate;
 };
+
+Homework::Homework(){
+	dueDate = dueDate;
+	assignedDate = assignedDate;
+	Description = "";
+	Status = "";
+}
 
 Homework::Homework(Date dDate, Date aDate, string Descrip = "", string Stat = ""){
 	dueDate = dDate;
@@ -40,8 +48,9 @@ string Homework::getStatus(){
 	return Status;
 }
 
-void Homework::setDueDate(string date){
-	dueDate = dueDate.parseDate(date, Standard);
+void Homework::setDueDate(Date date){
+	dueDate = date;
+
 }
 
 void Homework::setAssignedDate(string date){
