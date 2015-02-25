@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <string>
 #include "Date.h"
+#include "Constants.h"
 #include <iostream>
 #include <fstream>
 #include <sstream>
@@ -13,29 +14,25 @@
 
 using namespace std;
 
-#pragma region Constants
-const unsigned int MAX_STRING = 50; // max length of user input string
-const string EXT = ".txt"; // valid file extension
-#pragma endregion
-
 #pragma region Prototypes
+
+Date GetUserDate();
 bool IsInString(string s1, string s2);
-string NumberToStringBuilder(double number);
 string GetFileName(int minLength, int maxLength, string validExtension);
 string GetUserString(int minLength, int maxLength, string validInput);
-bool IsAlphaNumeric(string c);
 bool dateRangeIsValid(Date assignedDate, Date dueDate);
 bool stringIsValidDate(string d);
 bool stringIsValidAssignmentStatus(string status);
 bool IsNumeric(char c);
-string makeLowercase(string s);
-Date dueDateCheck(string stringDueDate, Date aDate);
-Date assignedDateCheck(string stringAssignedDate, Date dDate);
-void statusCheck(string& status);
 void invalidDateMessage();
+void displayEditAssignmentMenu();
+char GetUserMenuChoice(string validInput);
+void assignmentDoesNotExistMessage(Date date);
+
 #pragma endregion
 
 #pragma region Definitions
+
 bool dateRangeIsValid(Date assignedDate, Date dueDate)
 // returns True is the assignedDate is less than or
 // equal to the dueDate, otherwise returns False
@@ -88,8 +85,9 @@ bool stringIsValidAssignmentStatus(string status)
 // returns True if string status matches one of the three
 // valid assignment status types, otherwise returns false
 {
-	string s = makeLowercase(status);
-	return s == "assigned" || s == "late" || s == "completed";
+	return (IsInString(status, ASSIGNED) && status.length() == 8)
+		|| (IsInString(status, LATE) && status.length() == 4)
+		|| (IsInString(status, COMPLETED) && status.length() == 9);
 }
 
 bool IsInString(string s1, string s2)
@@ -109,7 +107,7 @@ string GetFileName(int minLength, int maxLength, string validExtension)
 		unsigned int index = 0;
 		string fileName = "";
 		string fileExtension = "";
-		cout << "Please Enter Your Filename with " << EXT << " Extension -->";
+		cout << "Please Enter Your Filename with " << EXT << " Extension " << ARROW;
 		fileName = GetUserString(minLength, maxLength, "");
 		while (fileName[index] != '.' && index < fileName.length())
 		{
@@ -139,8 +137,53 @@ string GetFileName(int minLength, int maxLength, string validExtension)
 	}
 }
 
+char GetUserMenuChoice(string validInput)
+// gets a single CHAR from user for menu options
+{
+	string userString = GetUserString(1, 1, validInput);
+	userString = toupper(userString[0]);
+	return userString[0];
+}
+
+string GetUserStatus()
+// Gets a status from user
+{
+	while (true)
+	{
+		string userString = GetUserString(4, MAX_STRING, "");
+		if (stringIsValidAssignmentStatus(userString))
+		{
+			return userString;
+		}
+		cout << "Invalid Status. Retry.\nValid statuses include:\n1. assigned\n2. late\n3. completed\n-->";
+	}
+}
+
+string GetUserLine()
+// Gets a line from the user
+{
+	string desc;
+	cin.ignore();
+	getline(cin, desc);
+	return desc;
+}
+
+Date GetUserDate()
+// Gets valid Date from user
+{
+	while (true)
+	{
+		string userString = GetUserString(4, 10, "");
+		if (stringIsValidDate(userString))
+		{
+			Date userDate(userString);
+			return userDate;
+		}
+		invalidDateMessage();
+	}
+}
+
 string GetUserString(int minLength, int maxLength, string validInput)
-// Gets an alpha-numeric string from user within a length range. <-- commented out AlphaNumeric check below
 // Checks user input against a validInput string that's passed into the function.
 // If you don't want to check input against validInput string, pass an empty string "" into
 // the function.
@@ -150,29 +193,11 @@ string GetUserString(int minLength, int maxLength, string validInput)
 	while (true)
 	{
 		cin >> userString;
-		//if (!IsAlphaNumeric(userString)) cout << "Invalid input: Must be alpha-numeric, period, dash, or underscore. " << endl;
-		/*else*/ if (validInput != "" && userString.find(validInput) == string::npos) cout << "Invalid input. " << endl;
+		if (validInput != "" && !IsInString(userString, validInput)) cout << "Invalid input. " << endl;
 		else if (static_cast<int>(userString.length()) < minLength) cout << "Too short. " << endl;
 		else if (static_cast<int>(userString.length()) > maxLength) cout << "Too long. " << endl;
 		else return userString;
 	}
-}
-
-bool IsAlphaNumeric(string c)
-// Returns True if all characters in a string are
-// alpha-numeric, period, dash, or underscore.
-// Otherwise, returns False.
-{
-	for (unsigned int i = 0; i < c.length(); i++)
-	{
-		if (!(c[i] == 45
-			|| c[i] == 46
-			|| (c[i] >= 48 && c[i] <= 57)
-			|| (c[i] >= 65 && c[i] <= 90)
-			|| c[i] == 95
-			|| (c[i] >= 97 && c[i] <= 122))) return false;
-	}
-	return true;
 }
 
 bool IsNumeric(char c)
@@ -181,94 +206,30 @@ bool IsNumeric(char c)
 	return c >= 48 && c <= 57;
 }
 
-string NumberToStringBuilder(double number)
-// Takes double and returns a string representation.
-// Example input: 5.0, output: "5.0"
-{
-	string numberAsString;
-	ostringstream conversionStream;
-	conversionStream << number;
-	return numberAsString = conversionStream.str();
-}
-
-string makeLowercase(string s)
-// Takes a string, converts to lowercase (if possible),
-// returns lowercase string
-{
-	char c;
-	char* str = new char[s.length()];
-	string lower = "";
-	// convert string s into str[]
-	for (unsigned int i = 0; i < s.length(); i++)
-	{
-		str[i] = s[i];
-	}
-	unsigned int i = 0;
-	for (unsigned int j = 0; j < s.length(); j++)
-	{
-		c = str[j];
-		lower += tolower(c);
-	}
-	delete[] str;
-	return lower;
-}
-
-Date dueDateCheck(string stringDueDate, Date aDate)
-// Checks the due date for valid format and valide date range against the assigned date
-{
-	Date parser;
-	parser = parser.parseDate(stringDueDate, Standard);
-	while (!stringIsValidDate(stringDueDate) || !dateRangeIsValid(aDate, parser))
-	{
-		if (!stringIsValidDate(stringDueDate))
-		{
-			invalidDateMessage();
-		}
-		else if (!dateRangeIsValid(aDate, parser))
-		{
-			cout << "Invalid Date Range. Retry. Due date must be after assigned date" << endl << "-->";
-		}
-		stringDueDate = GetUserString(4, MAX_STRING, "");
-		parser.parseDate(stringDueDate, Standard);
-	}
-	return parser;
-}
-
 void invalidDateMessage()
 // Message to user if date format is invalid
 {
-	cout << "Invalid Date. Retry. Makes sure date is in (YYYY/MM/DD) format" << endl << "-->";
+	cout << INVALID_DATE_TEXT << endl << ARROW;
 }
 
-Date assignedDateCheck(string stringAssignedDate, Date dDate)
-// Checks the assigned date for valid format and valid date range against the due date
+void invalidDateRangeMessage()
+// Message to user if invalid date range
 {
-	Date parser;
-	parser = parser.parseDate(stringAssignedDate, Standard);
-	while (!stringIsValidDate(stringAssignedDate) || !dateRangeIsValid(parser, dDate))
-	{
-		if (!stringIsValidDate(stringAssignedDate))
-		{
-			invalidDateMessage();
-		}
-		else if (!dateRangeIsValid(parser, dDate))
-		{
-			cout << "Invalid Date Range. Retry. Assigned date must be before due date" << endl << "-->";
-		}
-		stringAssignedDate = GetUserString(4, MAX_STRING, "");
-		parser = parser.parseDate(stringAssignedDate, Standard);
-	}
-	return parser;
+	cout << INVALID_DATE_RANGE_TEXT << endl << ARROW;
 }
 
-void statusCheck(string& status)
-// Checks the validity of a status,
-// if invalid, alerts the user and prompts them to re-enter status
+void displayEditAssignmentMenu()
 {
-	while (!stringIsValidAssignmentStatus(status))
-	{
-		cout << "Invalid Status. Retry.\nValid statuses include:\n1. assigned\n2. late\n3. completed\n-->";
-		status = GetUserString(4, MAX_STRING, "");
-	}
+	cout << "Choose from the following:\n"
+		<< "[A]: Edit Due Date\n"
+		<< "[B]: Edit Description\n"
+		<< "[Q]: Quit\n"
+		<< ARROW;
 }
+
+void assignmentDoesNotExistMessage(Date date)
+{
+	cout << "ERROR. NO ASSIGNMENT WITH " << date.toString() << " DATE" << endl << "Try again" << ARROW;
+}
+
 #pragma endregion

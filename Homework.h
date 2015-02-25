@@ -6,6 +6,7 @@ public:
 	Homework(Date dDate, Date aDate, string Descrip, string Stat);
 	Date getDueDate();
 	Date getAssignedDate();
+	Date getCompletedDate();
 	string getDescription();
 	string getStatus();
 	void setDueDate(Date date);
@@ -13,9 +14,10 @@ public:
 	void setDescription(string description);
 	void setStatus(string status);
 	bool operator ==(Homework HW) const;
+	bool isLate();
 private:
 	string  Description, Status;
-	Date dueDate, assignedDate;
+	Date dueDate, assignedDate, completedDate;
 };
 
 Homework::Homework(){
@@ -23,6 +25,7 @@ Homework::Homework(){
 	assignedDate = assignedDate;
 	Description = "";
 	Status = "";
+	completedDate = completedDate.parseDate("2100/01/01", Standard);
 }
 
 Homework::Homework(Date dDate, Date aDate, string Descrip = "", string Stat = ""){
@@ -30,6 +33,12 @@ Homework::Homework(Date dDate, Date aDate, string Descrip = "", string Stat = ""
 	assignedDate = aDate;
 	Description = Descrip;
 	Status = Stat;
+	completedDate = completedDate.parseDate("2100/01/01", Standard);
+}
+
+bool Homework::isLate()
+{
+	return completedDate > dueDate;
 }
 
 Date Homework::getDueDate(){
@@ -38,6 +47,11 @@ Date Homework::getDueDate(){
 
 Date Homework::getAssignedDate(){
 	return assignedDate;
+}
+
+Date Homework::getCompletedDate()
+{
+	return completedDate;
 }
 
 string Homework::getDescription(){

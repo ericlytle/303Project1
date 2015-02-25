@@ -20,12 +20,13 @@ public:
 	void inputUserFile();
 	void outputUserFile();
 	void editAssignment(Date date);
+	bool assignmentExists(Homework HW);
+	bool assignmentExists(Date date);
 private:
 	list<Homework> Assigned;
 	list<Homework> Completed;
 	list<Homework>::iterator it;
 	string fileName;
-	bool assignmentExists(Homework HW);
 	Homework tempHomework;
 	//returns true if the assignment exists. 
 };
@@ -149,6 +150,7 @@ void Assignments::exportHomework(string& fileName){
 void Assignments::setFileName(){
 	fileName = GetFileName(5, MAX_STRING, EXT);
 }
+
 void Assignments::inputUserFile(){
 	importHomework(fileName);
 }
@@ -166,10 +168,11 @@ void Assignments::displayAssignments(){
 	else{
 		cout << "--------" << Assigned.size() << "-Total----------" << endl;
 		while (it != Assigned.end()){
-			cout << "Description:   " << it->getDescription() << endl;
-			cout << "Assigned Date: " << it->getAssignedDate().toString() << endl;
-			cout << "Due Date:      " << it->getDueDate().toString() << endl;
-			cout << "Status:        " << it->getStatus() << endl << endl;
+			cout << "Description:    " << it->getDescription() << endl;
+			cout << "Assigned Date:  " << it->getAssignedDate().toString() << endl;
+			cout << "Due Date:       " << it->getDueDate().toString() << endl;
+			cout << "Completed Date: " << it->getCompletedDate().toString() << endl;
+			cout << "Status:         " << it->getStatus() << endl << endl;
 			++it;
 		}
 	}
@@ -191,7 +194,8 @@ void Assignments::displayAssignments(){
 	}
 }
 
-bool Assignments::assignmentExists(Homework HW){
+bool Assignments::assignmentExists(Homework HW)
+{
 	//returns true if the assignment already exists and false otherwise. 
 	it = Assigned.begin();
 	while (it != Assigned.end()){
@@ -202,50 +206,65 @@ bool Assignments::assignmentExists(Homework HW){
 	return false;
 }
 
-void Assignments::editAssignment(Date date){
-	string choice, newDescription, newDueDate;
-	Date parser;
-	//find the assignment and set iterator
-	try
-	{
-		getHomework(date);
-		cout << "Choose from the following:\n"
-			<< "[A]: Edit Due Date\n"
-			<< "[B]: Edit Description\n"
-			<< "[Q]: Quit\n"
-			<< "-->";
-		cin >> choice;
-		while (!IsInString(choice, "ABQabq") || choice.length() > 1){
-			cout << "Invalid menu choice. Try again." << endl << "-->";
-			cin >> choice;
-		}
-		choice = toupper(choice[0]);
-		switch (choice[0]){
-		case 'A':
-			cout << "New Due Date:\n--> ";
-			cin >> newDueDate;
-			/*parser = parser.parseDate(newDueDate, Standard);
-			while (!stringIsValidDate(newDueDate) || !dateRangeIsValid(it->getAssignedDate(), parser)){
-				cout << "Invalid Date. Retry. Makes sure date is in (YYYY/MM/DD) format" << endl << "-->";
-				cin >> newDueDate;
-				parser = parser.parseDate(newDueDate, Standard);
-			}*/
-			it->setDueDate(dueDateCheck(newDueDate,it->getAssignedDate()));
-			break;
-		case 'B': 
-			cout << "New Description:\n--> ";
-			cin.ignore();
-			getline(cin, newDescription);
-			it->setDescription(newDescription);
-			break;
-			
-		case 'Q': break;
-		}
+bool Assignments::assignmentExists(Date date)
+{
+	//returns true if the assignment already exists and false otherwise. 
+	it = Assigned.begin();
+	while (it != Assigned.end()){
+		if (it->getAssignedDate() == date)
+			return true;
+		++it;
 	}
-	catch (exception){
-		cout << "ERROR. NO ASSIGNMENT WITH " << date.toString() << " DATE" << endl;
-	}
+	return false;
 }
 
+void Assignments::editAssignment(Date date)
+// Edit the due date or description of an existing
+// homework assignment. Tries to identify the homework
+// assignment by assigned date (Date passed into method)
+{
+	// Try to get homework based on date passed in
+	getHomework(date);
 
-//delete this now
+	// Initialize locals
+	string newDescription;
+	Date newDueDate;
+
+	// Diplay menu, get user choice
+	displayEditAssignmentMenu();
+	char choice = GetUserMenuChoice("ABQabq");
+
+	switch (choice)
+	{
+	case 'A': // New Due Date
+
+		// get the new due date from user
+		cout << "New Due Date:" << endl << ARROW;
+		newDueDate = GetUserDate();
+		while (true)
+		{
+			newDueDate = GetUserDate();
+			if (dateRangeIsValid(it->getAssignedDate(), newDueDate))
+			{
+				break;
+			}
+			cout << INVALID_DATE_RANGE_TEXT << endl << ARROW;
+		}
+		// set new due date and break
+		it->setDueDate(newDueDate);
+		break;
+
+	case 'B': // New Description
+
+		// get the new description from user
+		cout << "New Description:" << endl << ARROW;
+		newDescription = GetUserLine();
+
+		// set new description and break
+		it->setDescription(newDescription);
+		break;
+
+	case 'Q': // Quit the Edit Assignments Menu
+		break;
+	}
+}
