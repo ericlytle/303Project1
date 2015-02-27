@@ -64,12 +64,16 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Assignment.h" />
+    <ClInclude Include="AssignmentManager.h" />
     <ClInclude Include="Assignments.h" />
+    <ClInclude Include="AssignmentStatus.h" />
     <ClInclude Include="Constants.h" />
     <ClInclude Include="Date.h" />
     <ClInclude Include="Helpers.h" />
     <ClInclude Include="Homework.h" />
     <ClInclude Include="StringTokenizer.h" />
+    <ClInclude Include="UserInterface.h" />
     <ClInclude Include="User_Interface.h" />
   </ItemGroup>
   <ItemGroup>

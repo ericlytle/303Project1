@@ -4,6 +4,7 @@
 
 #pragma region Constants
 const unsigned int MAX_STRING = 50; // max length of user input string
+const unsigned int MAX_LINE = 100; // max length of user input line
 const std::string EXT = ".txt"; // valid file extension
 const std::string MAIN_MENU_CHOICES = "ABCDEISQabcdeisq"; // valid input for main menu choice
 const std::string DATE_FORMAT = "(YYYY/MM/DD)"; // valid date format for user input
