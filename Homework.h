@@ -15,8 +15,10 @@ public:
 	void setStatus(string status);
 	bool operator ==(Homework HW) const;
 	bool isLate();
+	bool IsDirty();
 private:
-	string  Description, Status;
+	bool isDirty;
+	string Description, Status;
 	Date dueDate, assignedDate, completedDate;
 };
 
