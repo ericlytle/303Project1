@@ -178,7 +178,6 @@ void Assignments::displayAssignments(){
 			cout << "Description:    " << it->getDescription() << endl;
 			cout << "Assigned Date:  " << it->getAssignedDate().toString() << endl;
 			cout << "Due Date:       " << it->getDueDate().toString() << endl;
-			cout << "Completed Date: " << it->getCompletedDate().toString() << endl;
 			cout << "Status:         " << it->getStatus() << endl << endl;
 			++it;
 		}
@@ -195,6 +194,7 @@ void Assignments::displayAssignments(){
 			cout << "Description:   " << it->getDescription() << endl;
 			cout << "Assigned Date: " << it->getAssignedDate().toString() << endl;
 			cout << "Due Date:      " << it->getDueDate().toString() << endl;
+			cout << "Completed Date: " << it->getCompletedDate().toString() << endl;
 			cout << "Status:        " << it->getStatus() << endl << endl;
 			++it;
 		}

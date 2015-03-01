@@ -1,7 +1,7 @@
 #pragma once
 
 #include <string>
-
+#include <ctime>
 #pragma region Constants
 const unsigned int MAX_STRING = 50; // max length of user input string
 const std::string EXT = ".txt"; // valid file extension

@@ -34,7 +34,7 @@ void UI::displayMenu()
 		string Description, Status;
 
 		// Diplay Menu, get user choice
-		cout << Menu << "-->";
+		cout << Menu << ARROW;
 		char choice = GetUserMenuChoice(MAIN_MENU_CHOICES);
 
 		switch (choice)
